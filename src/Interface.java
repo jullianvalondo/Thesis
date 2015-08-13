@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +14,7 @@ public class Interface {
     public static File stopwordfile = new File("src//stopwords.txt");
     public static List<Article> FileArticle = new ArrayList<>();
     
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         
         //stopwords
         Charset charset = Charset.forName("US-ASCII");
@@ -39,14 +38,28 @@ public class Interface {
         for(int file_ctr = 0; file_ctr < fc.getSelectedFiles().length; file_ctr++)
         {            
             String arg = file_source[file_ctr].getAbsolutePath();
-            //System.out.println(arg);
             FileArticle.add(new Article(arg));
-            //Article InputText = new Article(arg);
-            //System.out.println(InputText.toString());
         }
         for (int i = 0; i < FileArticle.size(); i++) {
+            String AbsolutePath = file_source[i].getAbsolutePath();
+            String filePath = AbsolutePath.substring(0,AbsolutePath.lastIndexOf(File.separator));
+            String FileName = UtilityClass.GetFileName(file_source[i]);
+            
             System.out.println(file_source[i].getAbsolutePath());
-            System.out.println(FileArticle.get(i).toString());
+            //System.out.println("Article " + i+ ": ");
+            //System.out.println(FileArticle.get(i).toString());
+            System.out.println("File Parsed.");
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt");
+            
+            FileArticle.get(i).Score_Abstract_Sentence_To_Paragprahs();
+            //System.out.println("Scored Sentences: ");
+            //System.out.println(FileArticle.get(i).ScoredContent);
+            System.out.println("Article Scored.");
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");            
+            
+            //System.out.println("Paragraphs to be used for making summary: ");
+            //System.out.println(FileArticle.get(i).RepresentationStrings);
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt"); 
         }
     }    
 }

@@ -1,4 +1,11 @@
 import edu.stanford.nlp.ling.HasWord;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,10 +41,10 @@ public class UtilityClass {
         return ss.toString();    
     }
     
-    public static boolean CheckIfInString( String haystack, String needle ) {
-      Pattern p = Pattern.compile(needle);
-      Matcher m = p.matcher(haystack);
-      return m.find();
+    public static boolean CheckIfInString( String a, String b ) {
+      Pattern x = Pattern.compile(b);
+      Matcher y = x.matcher(a);
+      return y.find();
     }    
     
     public static boolean ifInList(String subString, List <String> MainString){
@@ -48,4 +55,32 @@ public class UtilityClass {
         }
         return false;
     }    
+    
+    public static void OutputFile(String FilePath, String OutputString, String FileName) throws IOException{
+        BufferedReader inputStream = null;        
+        PrintWriter outputStream = null;
+        try {
+            Reader reader_sp = new StringReader(OutputString);
+            inputStream = new BufferedReader(reader_sp);
+            outputStream = new PrintWriter(new FileWriter(FilePath + "\\" + FileName));
+            String l;
+            while ((l = inputStream.readLine()) != null) {
+                outputStream.println(l);
+            }
+            outputStream.close();
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+    }
+    
+    public static String GetFileName(File openFile){
+        String name = "";
+        int pos = openFile.getName().lastIndexOf(".");
+        if(pos != -1) {
+           name = openFile.getName().substring(0, pos);
+        }
+        return name;
+    }
 }

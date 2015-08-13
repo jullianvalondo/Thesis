@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class Keyword {
-    private List<String> Keywords = new ArrayList<String>();
+    public List<String> Keywords = new ArrayList<String>();
     public final int Keyword_Number;
     private final String Original_Source;
     public List <String> Temporary_Similar_Keywords;
@@ -40,17 +40,18 @@ public class Keyword {
           for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
 
             String word = token.get(CoreAnnotations.TextAnnotation.class);
-
-            if(word.matches("[^a-zA-Z0-9\\\\s]*") || UtilityClass.ifInList(word, Interface.Stopwords)){
+            //"[^a-zA-Z0-9\\\\s]*"
+            if(word.matches("[^a-zA-Z\\\\s]*") || UtilityClass.ifInList(word, Interface.Stopwords)){
                 continue;
             }            
 
             String lemma = token.get(LemmaAnnotation.class);
               Keywords.add(lemma);
+              //Keywords.add(Lemmatize(lemma));
           }
         }
         
-        Keywords = new ArrayList<String>(new LinkedHashSet<String>(Keywords));
+        Keywords = new ArrayList<>(new LinkedHashSet<>(Keywords));
         Keyword_Number = Keywords.size();
         /*
         Reader reader_kp = new StringReader(Parameter_Sentence);
@@ -79,7 +80,7 @@ public class Keyword {
     
     
     //recursive lemmatization. more effective on some words but sacrifices efficiency
-    /*
+    
     private String Lemmatize(String text){
         String lemma = "";
         Properties props = new Properties();
@@ -98,7 +99,7 @@ public class Keyword {
         else
             return Lemmatize(lemma);
     }
-    */
+    
     @Override
     public String toString(){
         String toRet = "\n\t\tKeywords: ";
@@ -110,11 +111,17 @@ public class Keyword {
     
     //to be used for the sentence to find similar keywords, finding lead sentence from keywords in abstact sentence 
     public int Score_Similar_Keywords(Keyword Other_Keywords){
-        Temporary_Similar_Keywords = new ArrayList<String>(Keywords);
+        Temporary_Similar_Keywords = Keywords;
         Temporary_Similar_Keywords.retainAll(Other_Keywords.Keywords);
         return Temporary_Similar_Keywords.size();
     }
-    
+    public List<String> Get_Similar_Keywords(Keyword Other_Keywords){
+        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.retainAll(Other_Keywords.Keywords);
+        //sort all keywords in alphabetical order
+        java.util.Collections.sort(Temporary_Similar_Keywords);
+        return Temporary_Similar_Keywords;
+    }
     //counts number of keywords exist in a sentence.
     /*
     public int Score_Keyword_Existance(Sentence Reference_Sentence){
