@@ -36,7 +36,8 @@ public class Interface {
         File file_source[] = fc.getSelectedFiles();
 
         for(int file_ctr = 0; file_ctr < fc.getSelectedFiles().length; file_ctr++)
-        {            
+        {   
+            //input file
             String arg = file_source[file_ctr].getAbsolutePath();
             FileArticle.add(new Article(arg));
         }
@@ -46,17 +47,22 @@ public class Interface {
             String FileName = UtilityClass.GetFileName(file_source[i]);
             
             System.out.println(file_source[i].getAbsolutePath());
+            
+            //parse the file input
             //System.out.println("Article " + i+ ": ");
             //System.out.println(FileArticle.get(i).toString());
             System.out.println("File Parsed.");
             UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt");
             
+            
+            //score each keywords
             FileArticle.get(i).Score_Abstract_Sentence_To_Paragprahs();
             //System.out.println("Scored Sentences: ");
             //System.out.println(FileArticle.get(i).ScoredContent);
             System.out.println("Article Scored.");
             UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");            
             
+            //rank each scores
             //System.out.println("Paragraphs to be used for making summary: ");
             //System.out.println(FileArticle.get(i).RepresentationStrings);
             UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt"); 
