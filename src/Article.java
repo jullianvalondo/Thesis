@@ -110,8 +110,7 @@ public class Article {
                         temp
                         + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String 
                         +"\n\tPagragraph: " + CurrentAbstractSentence.RepresentedParagraph.Paragraph_String
-                        +"\n\tLeadSentence: " + Lead.Sentence_String
-                        +"\n\tKeywords: ";
+                        +"\n\tLeadSentence: " + Lead.Sentence_String;
             }         
         }
         this.LeadSentencesString = temp;

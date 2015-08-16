@@ -87,7 +87,7 @@ public class Sentence {
                                       + "\n\tParagraph: " + RepresentedParagraph.Paragraph_String
                                       +"\n\tScore: " + RepresentedScore
                                         +"\n\tSimilar Keywords: " + Similar_Keywords.toString()
-                                        +"\n\tParagraph Keywords: " + RepresentedParagraph.Paragraph_Keyword.toString()
-                                        +"\n\tSentence Keywords: " + Sentence_Keywords.toString();
+                                        +"\n\tParagraph Keywords: " + RepresentedParagraph.Paragraph_Keyword.Keywords.toString()
+                                        +"\n\tSentence Keywords: " + Sentence_Keywords.Keywords.toString();
     }
 }

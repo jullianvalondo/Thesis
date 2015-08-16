@@ -14,7 +14,7 @@ public class Keyword {
     public List<String> Keywords = new ArrayList<String>();
     public final int Keyword_Number;
     private final String Original_Source;
-    public List <String> Temporary_Similar_Keywords;
+    public List <String> Temporary_Similar_Keywords = new ArrayList<String>();
      public Keyword(){
          Original_Source = null;
          Keyword_Number = 0;
@@ -111,12 +111,14 @@ public class Keyword {
     
     //to be used for the sentence to find similar keywords, finding lead sentence from keywords in abstact sentence 
     public int Score_Similar_Keywords(Keyword Other_Keywords){
-        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.clear();
+        Temporary_Similar_Keywords.addAll(Keywords);
         Temporary_Similar_Keywords.retainAll(Other_Keywords.Keywords);
         return Temporary_Similar_Keywords.size();
     }
     public List<String> Get_Similar_Keywords(Keyword Other_Keywords){
-        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.clear();
+        Temporary_Similar_Keywords.addAll(Keywords);
         Temporary_Similar_Keywords.retainAll(Other_Keywords.Keywords);
         //sort all keywords in alphabetical order
         java.util.Collections.sort(Temporary_Similar_Keywords);
@@ -124,12 +126,14 @@ public class Keyword {
     }
     
     public int Score_Similar_Keywords(List<String> Other_Keywords){
-        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.clear();
+        Temporary_Similar_Keywords.addAll(Keywords);
         Temporary_Similar_Keywords.retainAll(Other_Keywords);
         return Temporary_Similar_Keywords.size();
     }
     public List<String> Get_Similar_Keywords(List<String> Other_Keywords){
-        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.clear();
+        Temporary_Similar_Keywords.addAll(Keywords);
         Temporary_Similar_Keywords.retainAll(Other_Keywords);
         //sort all keywords in alphabetical order
         java.util.Collections.sort(Temporary_Similar_Keywords);

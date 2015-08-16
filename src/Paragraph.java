@@ -56,7 +56,6 @@ public class Paragraph {
     public void TextRank(){
         UndirectedGraph<Sentence, DefaultEdge> InitGraph = new SimpleGraph<>(DefaultEdge.class);
         UndirectedWeightedSubgraph<Sentence, DefaultEdge> graph = new UndirectedWeightedSubgraph <>((WeightedGraph<Sentence,DefaultEdge>) InitGraph, null, null);
-        
     }
     
     public Sentence FindLeadSentence(Keyword Other_Keywords){
