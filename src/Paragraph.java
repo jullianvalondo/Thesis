@@ -6,13 +6,11 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.graph.UndirectedWeightedSubgraph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
-public class Paragraph {
+public class Paragraph{     
     public final String Paragraph_String;
     public final boolean IsAbstractParagraph;
     public final Keyword Paragraph_Keyword;
@@ -33,7 +31,8 @@ public class Paragraph {
     public String toString(){
         String SentenceToReturn = "";      
         for (Sentence Paragraph_Sentence : Paragraph_Sentences) {
-            SentenceToReturn = SentenceToReturn + "\n\tSentence: " + Paragraph_Sentence.toString();
+            SentenceToReturn = SentenceToReturn + "\n\tSentence: " + Paragraph_Sentence.toString()
+                                                +Paragraph_Sentence.Sentence_Keywords.toString();
         }
         if(IsAbstractParagraph){
             return "Abstract Paragraph: " + Paragraph_String + Paragraph_Keyword.toString()+ SentenceToReturn;
@@ -54,8 +53,22 @@ public class Paragraph {
     }
     
     public void TextRank(){
-        UndirectedGraph<Sentence, DefaultEdge> InitGraph = new SimpleGraph<>(DefaultEdge.class);
-        UndirectedWeightedSubgraph<Sentence, DefaultEdge> graph = new UndirectedWeightedSubgraph <>((WeightedGraph<Sentence,DefaultEdge>) InitGraph, null, null);
+        ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> graph = new ListenableUndirectedWeightedGraph<Sentence, DefaultEdge>(DefaultWeightedEdge.class);
+        for (int i = 0; i < Paragraph_Sentences.size(); i++) {
+            Sentence currentSentence = Paragraph_Sentences.get(i);
+            graph.addVertex(currentSentence);
+            for (int j = 0; j < Paragraph_Sentences.size(); j++) {
+                if(i == j){
+                    continue;
+                }
+                Sentence otherSentence =  Paragraph_Sentences.get(j);
+                graph.addVertex(otherSentence);
+                graph.addEdge(otherSentence, currentSentence);
+                graph.setEdgeWeight(graph.getEdge(otherSentence, currentSentence), currentSentence.GetNumberOfCooccuringKeywords(otherSentence) / currentSentence.Sentence_Keywords.Keywords.size());
+            }
+        }
+        System.out.println("Graph:\n" + graph.toString() + "\n");
+        
     }
     
     public Sentence FindLeadSentence(Keyword Other_Keywords){

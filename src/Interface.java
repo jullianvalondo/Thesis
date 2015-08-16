@@ -71,6 +71,8 @@ public class Interface {
             //find lead sentences in top scored paragraph representation of abstract sentences to content paragraph
             FileArticle.get(i).FindLeadSentenceOfRepresentedParagraphs();
             UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
+            
+            FileArticle.get(i).RankRepresentedParagraphs();
         }
         
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);

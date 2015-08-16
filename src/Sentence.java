@@ -20,7 +20,7 @@ public class Sentence {
     
     @Override
     public String toString(){
-        return Sentence_String + Sentence_Keywords.toString();
+        return Sentence_String;// + Sentence_Keywords.toString();
     }
     //returns number of similar keywords of another sentence
     public int GetNumberOfCooccuringKeywords(Sentence Other_Sentence){

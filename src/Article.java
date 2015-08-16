@@ -115,4 +115,14 @@ public class Article {
         }
         this.LeadSentencesString = temp;
     }
+    
+    public void RankRepresentedParagraphs(){
+        for (int i = 0; i < Abstract_Paragraph.size(); i++) {
+            Paragraph currentParagraph = Abstract_Paragraph.get(i);
+            for (int j = 0; j < currentParagraph.Paragraph_Sentences.size(); j++) {
+                Sentence AbstractSentence = currentParagraph.Paragraph_Sentences.get(j);
+                AbstractSentence.RepresentedParagraph.TextRank();
+            }
+        }
+    }
 }
