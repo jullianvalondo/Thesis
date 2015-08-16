@@ -34,14 +34,13 @@ public class Sentence {
         else{
             return Sentence_Keywords.Score_Similar_Keywords(Other_Sentence.Sentence_Keywords) / Sentence_Keywords.Keywords.size();
         }
-        
     }
     public List<String> GetSimilarKeywords(Sentence Other_Sentence){
         return Sentence_Keywords.Get_Similar_Keywords(Other_Sentence.Sentence_Keywords);
     }
     
-    
-     public int GetNumberOfCooccuringKeywords(Paragraph Other_Paragraph){
+    //Paragraph as parameter
+    public int GetNumberOfCooccuringKeywords(Paragraph Other_Paragraph){
         return Sentence_Keywords.Score_Similar_Keywords(Other_Paragraph.Paragraph_Keyword);
     }
     //percentage of OtherSentenceKeywords/ThisSentenceKeywords
@@ -55,6 +54,22 @@ public class Sentence {
     public List<String> GetSimilarKeywords(Paragraph Other_Paragraph){
         return Sentence_Keywords.Get_Similar_Keywords(Other_Paragraph.Paragraph_Keyword);
     }   
+    
+    //String List as Parameter
+    public int GetNumberOfCooccuringKeywords(Keyword Other_Keywords){
+        return Sentence_Keywords.Score_Similar_Keywords(Other_Keywords);
+    }
+    //percentage of OtherSentenceKeywords/ThisSentenceKeywords
+    public double GetRatioOfCooccuringKeywords(Keyword Other_Keywords){
+       if(Sentence_Keywords.Score_Similar_Keywords(Other_Keywords) == 0){
+           return 0;
+       }else{
+           return Sentence_Keywords.Score_Similar_Keywords(Other_Keywords)/ Other_Keywords.Keywords.size();
+       }  
+    }
+    public List<String> GetSimilarKeywords(Keyword Other_Keywords){
+        return Sentence_Keywords.Get_Similar_Keywords(Other_Keywords);
+    }
     //insert code for finding supporting sentence: use Score_Keyword_Existence.
     //Refer to paragraph of itself
     
@@ -71,6 +86,8 @@ public class Sentence {
                     return "\nAbstract Sentence: " + this.Sentence_String
                                       + "\n\tParagraph: " + RepresentedParagraph.Paragraph_String
                                       +"\n\tScore: " + RepresentedScore
-                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString();
+                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString()
+                                        +"\n\tParagraph Keywords: " + RepresentedParagraph.Paragraph_Keyword.toString()
+                                        +"\n\tSentence Keywords: " + Sentence_Keywords.toString();
     }
 }

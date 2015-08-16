@@ -16,6 +16,7 @@ public class Article {
     
     public String ScoredContent = "";
     public String RepresentationStrings = "";
+    public String LeadSentencesString = "";
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -71,8 +72,11 @@ public class Article {
                     ScoredContent = ScoredContent + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String 
                                       + "\n\tParagraph: " + CurrentContentParagraph.Paragraph_String
                                       +"\n\tScore: " + Score
-                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString();
+                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString()
+                                        +"\n\tParagraph Keywords: " + CurrentContentParagraph.Paragraph_Keyword.Keywords
+                                        +"\n\tAbstract Sentence Keywords: " +CurrentAbstractSentence.Sentence_Keywords.Keywords;
                     CurrentAbstractSentence.addRepresentation(CurrentContentParagraph, Score, Similar_Keywords);
+                            
                 }              
             }         
         }        
@@ -85,5 +89,31 @@ public class Article {
                 //System.out.println(CurrentAbstractSentence.RepresentationtoString());
             }         
         } 
+    }
+    public void FindLeadSentenceOfRepresentedParagraphs(){
+        String temp = "";
+        for (int i = 0; i < Abstract_Paragraph.size(); i++) {
+            Paragraph CurrentAbstractParagraph = Abstract_Paragraph.get(i);
+            for (int j = 0; j < CurrentAbstractParagraph.Paragraph_Sentences.size(); j++) {
+                Sentence CurrentAbstractSentence = CurrentAbstractParagraph.Paragraph_Sentences.get(j);
+                Sentence Lead = CurrentAbstractSentence.RepresentedParagraph.FindLeadSentence(CurrentAbstractSentence.Sentence_Keywords);
+                
+                
+                if(Lead == null){
+                    temp = temp + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String
+                            +"\n\tPagragraph: " + CurrentAbstractSentence.RepresentedParagraph.Paragraph_String
+                            + "\n\tNo Lead Sentence Found!";
+                    continue;
+                }
+                
+                temp = 
+                        temp
+                        + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String 
+                        +"\n\tPagragraph: " + CurrentAbstractSentence.RepresentedParagraph.Paragraph_String
+                        +"\n\tLeadSentence: " + Lead.Sentence_String
+                        +"\n\tKeywords: ";
+            }         
+        }
+        this.LeadSentencesString = temp;
     }
 }

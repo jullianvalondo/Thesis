@@ -6,6 +6,11 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.WeightedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.graph.UndirectedWeightedSubgraph;
 
 public class Paragraph {
     public final String Paragraph_String;
@@ -46,5 +51,24 @@ public class Paragraph {
     }
     public List<String> GetSimilarKeywords(Sentence Other_Sentence){
         return Paragraph_Keyword.Get_Similar_Keywords(Other_Sentence.Sentence_Keywords);
-    }    
+    }
+    
+    public void TextRank(){
+        UndirectedGraph<Sentence, DefaultEdge> InitGraph = new SimpleGraph<>(DefaultEdge.class);
+        UndirectedWeightedSubgraph<Sentence, DefaultEdge> graph = new UndirectedWeightedSubgraph <>((WeightedGraph<Sentence,DefaultEdge>) InitGraph, null, null);
+        
+    }
+    
+    public Sentence FindLeadSentence(Keyword Other_Keywords){
+        int MaxScore = 0;
+        Sentence tempSentence = null;
+        for (int i = 0; i < Paragraph_Sentences.size(); i++) {
+            double score = Paragraph_Sentences.get(i).GetNumberOfCooccuringKeywords(Other_Keywords);
+            if(score > MaxScore){
+                score = MaxScore;
+                tempSentence = Paragraph_Sentences.get(i);
+            }
+        }
+        return tempSentence;
+    }
 }

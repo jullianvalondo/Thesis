@@ -122,19 +122,20 @@ public class Keyword {
         java.util.Collections.sort(Temporary_Similar_Keywords);
         return Temporary_Similar_Keywords;
     }
-    //counts number of keywords exist in a sentence.
-    /*
-    public int Score_Keyword_Existance(Sentence Reference_Sentence){
-        int score = 0;
-        for (int i = 0; i < Keyword_Number; i++) {
-            if(Reference_Sentence.Sentence_String.contains(Keywords[i])){
-                Temporary_Similar_Keywords[score] = Keywords[i];
-                score++;                
-            }
-        }
-        return score;
+    
+    public int Score_Similar_Keywords(List<String> Other_Keywords){
+        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.retainAll(Other_Keywords);
+        return Temporary_Similar_Keywords.size();
     }
-    */
+    public List<String> Get_Similar_Keywords(List<String> Other_Keywords){
+        Temporary_Similar_Keywords = Keywords;
+        Temporary_Similar_Keywords.retainAll(Other_Keywords);
+        //sort all keywords in alphabetical order
+        java.util.Collections.sort(Temporary_Similar_Keywords);
+        return Temporary_Similar_Keywords;
+    }    
+
     public static boolean ifStopWord(String word){
         for (int i = 0; i < Interface.Stopwords.size(); i++) {
             if(Interface.Stopwords.get(i).equalsIgnoreCase(word))

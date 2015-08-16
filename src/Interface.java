@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Interface {
@@ -46,12 +47,12 @@ public class Interface {
             String filePath = AbsolutePath.substring(0,AbsolutePath.lastIndexOf(File.separator));
             String FileName = UtilityClass.GetFileName(file_source[i]);
             
-            System.out.println(file_source[i].getAbsolutePath());
+            //System.out.println(file_source[i].getAbsolutePath());
             
             //parse the file input
             //System.out.println("Article " + i+ ": ");
             //System.out.println(FileArticle.get(i).toString());
-            System.out.println("File Parsed.");
+            //System.out.println("File Parsed.");
             UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt");
             
             
@@ -59,13 +60,19 @@ public class Interface {
             FileArticle.get(i).Score_Abstract_Sentence_To_Paragprahs();
             //System.out.println("Scored Sentences: ");
             //System.out.println(FileArticle.get(i).ScoredContent);
-            System.out.println("Article Scored.");
+            //System.out.println("Article Scored.");
             UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");            
             
             //rank each scores
             //System.out.println("Paragraphs to be used for making summary: ");
             //System.out.println(FileArticle.get(i).RepresentationStrings);
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt"); 
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt");
+            
+            //find lead sentences in top scored paragraph representation of abstract sentences to content paragraph
+            FileArticle.get(i).FindLeadSentenceOfRepresentedParagraphs();
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
         }
+        
+        JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
     }    
 }
