@@ -10,9 +10,10 @@ public class Article {
     
     private String Source_Article;
     List<Paragraph> Article_Paragraphs = new ArrayList<>();
-    private List<Paragraph> Abstract_Paragraph = new ArrayList<>();
-    private List<Paragraph> Content_Paragraph = new ArrayList<>();
+    private final List<Paragraph> Abstract_Paragraph = new ArrayList<>();
+    private final List<Paragraph> Content_Paragraph = new ArrayList<>();
     private int NumberOfAbstractSentence = 0;
+    List<Representations> Representations = new ArrayList<>();
     
     public String ScoredContent = "";
     public String RepresentationStrings = "";
@@ -98,31 +99,52 @@ public class Article {
                 Sentence CurrentAbstractSentence = CurrentAbstractParagraph.Paragraph_Sentences.get(j);
                 Sentence Lead = CurrentAbstractSentence.RepresentedParagraph.FindLeadSentence(CurrentAbstractSentence.Sentence_Keywords);
                 
-                
-                if(Lead == null){
-                    temp = temp + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String
-                            +"\n\tPagragraph: " + CurrentAbstractSentence.RepresentedParagraph.Paragraph_String
-                            + "\n\tNo Lead Sentence Found!";
-                    continue;
-                }
-                
-                temp = 
-                        temp
-                        + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String 
-                        +"\n\tPagragraph: " + CurrentAbstractSentence.RepresentedParagraph.Paragraph_String
-                        +"\n\tLeadSentence: " + Lead.Sentence_String;
+                Representations.add(new Representations(CurrentAbstractSentence.RepresentedParagraph,CurrentAbstractSentence, Lead ));
+                temp = temp + Representations.get(Representations.size() - 1).toString();
             }         
         }
         this.LeadSentencesString = temp;
     }
     
     public void RankRepresentedParagraphs(){
+        /*
         for (int i = 0; i < Abstract_Paragraph.size(); i++) {
-            Paragraph currentParagraph = Abstract_Paragraph.get(i);
-            for (int j = 0; j < currentParagraph.Paragraph_Sentences.size(); j++) {
-                Sentence AbstractSentence = currentParagraph.Paragraph_Sentences.get(j);
-                AbstractSentence.RepresentedParagraph.TextRank();
-            }
+        Paragraph currentParagraph = Abstract_Paragraph.get(i);
+        for (int j = 0; j < currentParagraph.Paragraph_Sentences.size(); j++) {
+        Sentence AbstractSentence = currentParagraph.Paragraph_Sentences.get(j);
+        AbstractSentence.RepresentedParagraph.TextRank();
+        }
+        }
+         */
+        for (Representations Representation : Representations) {
+            Representation.RankRepresentedParagraph();
+        }
+    }
+}
+
+class Representations{
+    public final Paragraph RepresentedParagraph;
+    public final Sentence AbstractSentence;
+    public final Sentence LeadSentence;
+    Representations(Paragraph p, Sentence a, Sentence l){
+        RepresentedParagraph = p;
+        AbstractSentence = a;
+        LeadSentence = l;
+    }
+    public void RankRepresentedParagraph(){
+        AbstractSentence.RepresentedParagraph.TextRank();
+    }
+    @Override
+    public String toString(){
+        if(LeadSentence == null){
+            return "\n\nAbstract Sentence: " + AbstractSentence.Sentence_String
+                +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
+                + "\n\tNo Lead Sentence Found!";
+        }
+        else{
+            return "\n\nAbstract Sentence: " + AbstractSentence.Sentence_String
+                +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
+                +"\n\tLeadSentence: " + LeadSentence.Sentence_String;
         }
     }
 }

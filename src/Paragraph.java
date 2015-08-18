@@ -63,6 +63,7 @@ public class Paragraph{
                 }
                 Sentence otherSentence =  Paragraph_Sentences.get(j);
                 graph.addVertex(otherSentence);
+                
                 graph.addEdge(otherSentence, currentSentence);
                 graph.setEdgeWeight(graph.getEdge(otherSentence, currentSentence), currentSentence.GetNumberOfCooccuringKeywords(otherSentence) / currentSentence.Sentence_Keywords.Keywords.size());
             }
@@ -72,12 +73,13 @@ public class Paragraph{
     }
     
     public Sentence FindLeadSentence(Keyword Other_Keywords){
-        int MaxScore = 0;
+        double MaxScore = 0;
+        double score = 0;
         Sentence tempSentence = null;
         for (int i = 0; i < Paragraph_Sentences.size(); i++) {
-            double score = Paragraph_Sentences.get(i).GetNumberOfCooccuringKeywords(Other_Keywords);
+            score = Paragraph_Sentences.get(i).GetNumberOfCooccuringKeywords(Other_Keywords);
             if(score > MaxScore){
-                score = MaxScore;
+                MaxScore = score;
                 tempSentence = Paragraph_Sentences.get(i);
             }
         }
