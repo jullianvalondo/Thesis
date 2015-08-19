@@ -19,7 +19,7 @@ public class Paragraph{
     public final Keyword Paragraph_Keyword;
     List<Sentence> Paragraph_Sentences = new ArrayList<>();
     
-    ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> graph = new ListenableUndirectedWeightedGraph<Sentence, DefaultEdge>(DefaultWeightedEdge.class);
+    ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> graph = new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
     public Paragraph(String source, boolean checker) throws FileNotFoundException{
         IsAbstractParagraph = checker;
         Paragraph_String = source;
@@ -104,7 +104,7 @@ public class Paragraph{
             return toRet;
         }
         else{
-            System.out.println(CurrentSentence);
+            //System.out.println(CurrentSentence);
             toRet = "\n"+CurrentSentence.toString();
             CurrentSentence.visited = true;
         }
@@ -128,13 +128,13 @@ public class Paragraph{
     
     public Sentence FindLeadSentence(Keyword Other_Keywords){
         double MaxScore = 0;
-        double score = 0;
+        double score;
         Sentence tempSentence = null;
-        for (int i = 0; i < Paragraph_Sentences.size(); i++) {
-            score = Paragraph_Sentences.get(i).GetNumberOfCooccuringKeywords(Other_Keywords);
-            if(score > MaxScore){
+        for (Sentence Paragraph_Sentence : Paragraph_Sentences) {
+            score = Paragraph_Sentence.GetNumberOfCooccuringKeywords(Other_Keywords);
+            if (score > MaxScore) {
                 MaxScore = score;
-                tempSentence = Paragraph_Sentences.get(i);
+                tempSentence = Paragraph_Sentence;
             }
         }
         return tempSentence;

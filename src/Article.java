@@ -130,7 +130,7 @@ class Representations{
     }
     public void RankRepresentedParagraph(){
         GraphString = AbstractSentence.RepresentedParagraph.TextRank();
-        System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
+        //System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
         //Summary = Summary + "\n\n"+ AbstractSentence.Sentence_String+"\n";
         //AbstractSentence.RepresentedParagraph.ResetVisitFlag();
         Summary = Summary + AbstractSentence.RepresentedParagraph.FindSubGraph(LeadSentence) + "\n";
