@@ -6,7 +6,7 @@ import java.util.List;
 public class Sentence {
     public final String Sentence_String;
     public final Keyword Sentence_Keywords;
-    
+    public boolean visited = false;
     //fields for represenation of sentences in paragraph
     public Paragraph RepresentedParagraph = null;
     public double RepresentedScore = 0;

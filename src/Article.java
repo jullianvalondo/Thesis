@@ -107,15 +107,6 @@ public class Article {
     }
     
     public void RankRepresentedParagraphs(){
-        /*
-        for (int i = 0; i < Abstract_Paragraph.size(); i++) {
-        Paragraph currentParagraph = Abstract_Paragraph.get(i);
-        for (int j = 0; j < currentParagraph.Paragraph_Sentences.size(); j++) {
-        Sentence AbstractSentence = currentParagraph.Paragraph_Sentences.get(j);
-        AbstractSentence.RepresentedParagraph.TextRank();
-        }
-        }
-         */
         for (Representations Representation : Representations) {
             Representation.RankRepresentedParagraph();
         }
@@ -133,6 +124,10 @@ class Representations{
     }
     public void RankRepresentedParagraph(){
         AbstractSentence.RepresentedParagraph.TextRank();
+        System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
+        AbstractSentence.RepresentedParagraph.ResetVisitFlag();
+        AbstractSentence.RepresentedParagraph.FindSubGraph(LeadSentence);
+        
     }
     @Override
     public String toString(){
