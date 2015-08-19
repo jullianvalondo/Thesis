@@ -73,6 +73,9 @@ public class Interface {
             UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
             
             FileArticle.get(i).RankRepresentedParagraphs();
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).GraphSummary, FileName + "_Graph_Review.txt");
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).SummaryString, FileName + "_Summary.txt");
+            
         }
         
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);

@@ -18,6 +18,8 @@ public class Article {
     public String ScoredContent = "";
     public String RepresentationStrings = "";
     public String LeadSentencesString = "";
+    public String GraphSummary = "";
+    public String SummaryString = "";
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -109,6 +111,8 @@ public class Article {
     public void RankRepresentedParagraphs(){
         for (Representations Representation : Representations) {
             Representation.RankRepresentedParagraph();
+            GraphSummary = GraphSummary + Representation.GraphString;
+            SummaryString = SummaryString + Representation.Summary;
         }
     }
 }
@@ -117,17 +121,19 @@ class Representations{
     public final Paragraph RepresentedParagraph;
     public final Sentence AbstractSentence;
     public final Sentence LeadSentence;
+    public String GraphString = "";
+    public String Summary = "";
     Representations(Paragraph p, Sentence a, Sentence l){
         RepresentedParagraph = p;
         AbstractSentence = a;
         LeadSentence = l;
     }
     public void RankRepresentedParagraph(){
-        AbstractSentence.RepresentedParagraph.TextRank();
+        GraphString = AbstractSentence.RepresentedParagraph.TextRank();
         System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
+        Summary = Summary + "\n\n"+ AbstractSentence.Sentence_String+"\n";
         AbstractSentence.RepresentedParagraph.ResetVisitFlag();
-        AbstractSentence.RepresentedParagraph.FindSubGraph(LeadSentence);
-        
+        Summary = Summary + AbstractSentence.RepresentedParagraph.FindSubGraph(LeadSentence);
     }
     @Override
     public String toString(){

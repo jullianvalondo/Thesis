@@ -57,7 +57,8 @@ public class Paragraph{
         return Paragraph_Keyword.Get_Similar_Keywords(Other_Sentence.Sentence_Keywords);
     }
     
-    public void TextRank(){
+    public String TextRank(){
+        String ret = "";
         //ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> graph = new ListenableUndirectedWeightedGraph<Sentence, DefaultEdge>(DefaultWeightedEdge.class);
         for (Sentence currentSentence : Paragraph_Sentences) {
             graph.addVertex(currentSentence);
@@ -73,15 +74,15 @@ public class Paragraph{
                 //graph.addVertex(otherSentence);
                 double similarity_score = currentSentence.GetNumberOfCooccuringKeywords(otherSentence);// / currentSentence.Sentence_Keywords.Keywords.size();
                 double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size();
-                /*
-                System.out.println("\nSentence: " + currentSentence.Sentence_String
+                
+                ret = ret + "\nSentence: " + currentSentence.Sentence_String
                                     +"\nkeywords: " + currentSentence.Sentence_Keywords.toString()
                                     +"\nSentence: " + otherSentence.Sentence_String
                                     +"\nkeywords: " + otherSentence.Sentence_Keywords.toString()
                                     + "\n\tSimilar Keywords: " + currentSentence.GetSimilarKeywords(otherSentence).toString()
                                     +"\n\tSimilarity Score: " + similarity_score
-                                    +"\n\tScore: " + score);
-                */
+                                    +"\n\tScore: " + score;
+                
                 graph.addEdge(otherSentence, currentSentence);
                 DefaultEdge e = graph.getEdge(otherSentence, currentSentence);
                 if(e == null){
@@ -94,14 +95,17 @@ public class Paragraph{
             }
         }
         //System.out.println("Graph:\n" + graph.toString() + "\n");
+        return ret;
     }
     
-    public void FindSubGraph(Sentence CurrentSentence){
+    public String FindSubGraph(Sentence CurrentSentence){
+        String toRet = "";
         if(CurrentSentence.visited == true){
-            return;
+            return toRet;
         }
         else{
             System.out.println(CurrentSentence);
+            toRet = "\n"+CurrentSentence.toString();
             CurrentSentence.visited = true;
         }
         for (Sentence otherSentence : Paragraph_Sentences) {
@@ -110,9 +114,10 @@ public class Paragraph{
             }
             double current_score = graph.getEdgeWeight(graph.getEdge(CurrentSentence, otherSentence));
             if(current_score >= threshold){
-                FindSubGraph(otherSentence);
+                toRet = toRet + FindSubGraph(otherSentence);
             }
         }
+        return toRet;
     }
     
     public void ResetVisitFlag(){
@@ -134,35 +139,4 @@ public class Paragraph{
         }
         return tempSentence;
     }
-}
-
-
-class Vertex<T>{
-    public final T node;
-    public List<Edge> Edges = new ArrayList<>();
-    public Vertex(T n){
-        node = n;
-    }
-    public boolean isEquals(T obj){
-        return node.equals(obj);
-    }
-    public void addEdge(Vertex<T> obj, double score){
-        Edges.add(new Edge<>(obj, score));
-    }
-}
-
-class Edge<T>{
-    public final Vertex<T> OtherNode;
-    public final double weight;
-    public Edge(Vertex<T> x, double w){
-        weight = w;
-        OtherNode = x;
-    }
-    public double getWeight(){
-        return weight;
-    }
-}
-
-class Graph<T>{
-    
 }
