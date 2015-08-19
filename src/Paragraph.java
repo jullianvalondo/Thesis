@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Paragraph{
-    public final double threshold = 0.1; // 10%
+    public final double threshold = 10.0; // 10%
     
     public final String Paragraph_String;
     public final boolean IsAbstractParagraph;
@@ -73,7 +73,7 @@ public class Paragraph{
                 Sentence otherSentence =  Paragraph_Sentences.get(j);
                 //graph.addVertex(otherSentence);
                 double similarity_score = currentSentence.GetNumberOfCooccuringKeywords(otherSentence);// / currentSentence.Sentence_Keywords.Keywords.size();
-                double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size();
+                double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size() * 100;
                 
                 ret = ret + "\nSentence: " + currentSentence.Sentence_String
                                     +"\nkeywords: " + currentSentence.Sentence_Keywords.toString()
