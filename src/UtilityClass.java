@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,5 +86,28 @@ public class UtilityClass {
            name = openFile.getName().substring(0, pos);
         }
         return name;
+    }
+    
+    public static double TextRankScoring(Sentence Si, Sentence Sj){
+        List<String> Wi = new ArrayList<>();
+        List<String> Wj = new ArrayList<>();
+        Wi.addAll(Si.Sentence_Keywords.Keywords);
+        Wj.addAll(Sj.Sentence_Keywords.Keywords);
+        double SiNormalizer = Math.log(Wi.size());
+        double SjNormalizer = Math.log(Wj.size());
+        //get intersection of keywords from sentence 1 and sentence 2
+        Wi.retainAll(Wj);
+        Wi = new ArrayList<>(new LinkedHashSet<>(Wi));
+        double score = Wi.size()/(SiNormalizer + SjNormalizer);
+        return score;
+    }
+    
+    public static double Scoring(Sentence Si, Sentence Sj){
+        Set<String> Wi = new HashSet<>();
+        Set<String> Wj = new HashSet<>();
+        Wi.addAll(Si.Sentence_Keywords.Keywords);
+        Wi.addAll(Sj.Sentence_Keywords.Keywords);
+        double score = Wi.size();
+        return score;
     }
 }

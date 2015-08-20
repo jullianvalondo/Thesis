@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Paragraph{
-    public final double threshold = Thesis.SentenceSimilarityThreshold; // 10%
+    public final double threshold = Thesis.SentenceSimilarityThreshold;
     
     public final String Paragraph_String;
     public final boolean IsAbstractParagraph;
@@ -57,7 +57,7 @@ public class Paragraph{
         return Paragraph_Keyword.Get_Similar_Keywords(Other_Sentence.Sentence_Keywords);
     }
     
-    public String TextRank(){
+    public String GraphSentences(){
         String ret = "";
         //ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> graph = new ListenableUndirectedWeightedGraph<Sentence, DefaultEdge>(DefaultWeightedEdge.class);
         for (Sentence currentSentence : Paragraph_Sentences) {
@@ -73,9 +73,9 @@ public class Paragraph{
                 Sentence otherSentence =  Paragraph_Sentences.get(j);
                 //graph.addVertex(otherSentence);
                 double similarity_score = currentSentence.GetNumberOfCooccuringKeywords(otherSentence);// / currentSentence.Sentence_Keywords.Keywords.size();
-                double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size() * 100;
-                
-                ret = ret + "\nSentence: " + currentSentence.Sentence_String
+                //double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size() * 100;
+                double score = similarity_score / UtilityClass.Scoring(currentSentence, otherSentence) * 100;
+                ret = ret + "\n\nSentence: " + currentSentence.Sentence_String
                                     +"\nkeywords: " + currentSentence.Sentence_Keywords.toString()
                                     +"\nSentence: " + otherSentence.Sentence_String
                                     +"\nkeywords: " + otherSentence.Sentence_Keywords.toString()

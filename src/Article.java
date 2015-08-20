@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Article {
     
@@ -15,11 +18,15 @@ public class Article {
     private int NumberOfAbstractSentence = 0;
     List<Representations> Representations = new ArrayList<>();
     
+    private ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> TextRankGraph = new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
+    
     public String ScoredContent = "";
     public String RepresentationStrings = "";
     public String LeadSentencesString = "";
     public String GraphSummary = "";
     public String SummaryString = "";
+    
+    public String TextRankString = "";
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -115,6 +122,37 @@ public class Article {
             SummaryString = SummaryString + Representation.Summary;
         }
     }
+    
+    public void TextRank(){
+        for (Paragraph currentParagraph : Article_Paragraphs) {
+            for (Sentence currentSentence : currentParagraph.Paragraph_Sentences) {
+                TextRankGraph.addVertex(currentSentence);
+                for (Paragraph otherParagraph : Article_Paragraphs) {
+                    for (Sentence otherSentence : otherParagraph.Paragraph_Sentences) {
+                        if(currentSentence.equals(otherSentence)){
+                            continue;
+                        }
+                        double score = UtilityClass.TextRankScoring(currentSentence, otherSentence);
+                        TextRankGraph.addVertex(otherSentence);
+                        TextRankGraph.addEdge(currentSentence, otherSentence);
+                        DefaultEdge e = TextRankGraph.getEdge(otherSentence, currentSentence);
+                        TextRankGraph.setEdgeWeight(e, score);
+                        /*
+                        System.out.println("\n\nSentence: " + currentSentence.Sentence_String
+                                    +"\nkeywords: " + currentSentence.Sentence_Keywords.toString()
+                                    +"\nSentence: " + otherSentence.Sentence_String
+                                    +"\nkeywords: " + otherSentence.Sentence_Keywords.toString()
+                                    + "\n\tSimilar Keywords: " + currentSentence.GetSimilarKeywords(otherSentence).toString()
+                                    +"\n\tScore: " + score);
+                        */
+                        TextRankString = TextRankString + score + "\n";
+                    }
+                }
+            }
+        }
+        
+
+    }
 }
 
 class Representations{
@@ -129,7 +167,7 @@ class Representations{
         LeadSentence = l;
     }
     public void RankRepresentedParagraph(){
-        GraphString = AbstractSentence.RepresentedParagraph.TextRank();
+        GraphString = AbstractSentence.RepresentedParagraph.GraphSentences();
         //System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
         //Summary = Summary + "\n\n"+ AbstractSentence.Sentence_String+"\n";
         //AbstractSentence.RepresentedParagraph.ResetVisitFlag();

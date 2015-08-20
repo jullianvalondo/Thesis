@@ -41,6 +41,8 @@ public class Interface {
             String arg = file_source[file_ctr].getAbsolutePath();
             FileArticle.add(new Article(arg));
         }
+        
+        //proposed model
         for (int i = 0; i < FileArticle.size(); i++) {
             String AbsolutePath = file_source[i].getAbsolutePath();
             String filePath = AbsolutePath.substring(0,AbsolutePath.lastIndexOf(File.separator));
@@ -55,8 +57,6 @@ public class Interface {
             if(LOGFILEOUTPUT){
                UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt"); 
             }
-            
-            
             
             //score each keywords
             FileArticle.get(i).Score_Abstract_Sentence_To_Paragprahs();
@@ -86,9 +86,15 @@ public class Interface {
             }
             UtilityClass.OutputFile(filePath, FileArticle.get(i).SummaryString, FileName + "_Summary.txt");
             
+            //Text Ranking
+            FileArticle.get(i).TextRank();
+            if(LOGFILEOUTPUT){
+                UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankString, FileName + "_TextRank_Review.txt");
+            }
         }
-        
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
+        
+        //graph based text extraction
     }
     public Interface(){
         

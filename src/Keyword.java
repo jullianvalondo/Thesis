@@ -15,10 +15,10 @@ public class Keyword {
     public final int Keyword_Number;
     private final String Original_Source;
     public List <String> Temporary_Similar_Keywords = new ArrayList<String>();
-     public Keyword(){
+    public Keyword(){
          Original_Source = null;
          Keyword_Number = 0;
-     }
+    }
     public Keyword(String Parameter_Sentence) throws FileNotFoundException{        
 
         this.Original_Source = Parameter_Sentence;
