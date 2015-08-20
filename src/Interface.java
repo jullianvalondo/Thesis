@@ -15,8 +15,8 @@ public class Interface {
     public static File stopwordfile = new File("src//stopwords.txt");
     public static List<Article> FileArticle = new ArrayList<>();
     
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-        
+    public void fileopen() throws FileNotFoundException, IOException {
+        boolean LOGFILEOUTPUT = Thesis.StatusOutput;
         //stopwords
         Charset charset = Charset.forName("US-ASCII");
         try (BufferedReader reader = Files.newBufferedReader(stopwordfile.toPath(), charset)) {
@@ -35,7 +35,6 @@ public class Interface {
         fc.setFileFilter(new FileNameExtensionFilter("Plain Text Files", "txt"));
         fc.showOpenDialog(null);
         File file_source[] = fc.getSelectedFiles();
-
         for(int file_ctr = 0; file_ctr < fc.getSelectedFiles().length; file_ctr++)
         {   
             //input file
@@ -53,7 +52,10 @@ public class Interface {
             //System.out.println("Article " + i+ ": ");
             //System.out.println(FileArticle.get(i).toString());
             //System.out.println("File Parsed.");
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt");
+            if(LOGFILEOUTPUT){
+               UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt"); 
+            }
+            
             
             
             //score each keywords
@@ -61,23 +63,34 @@ public class Interface {
             //System.out.println("Scored Sentences: ");
             //System.out.println(FileArticle.get(i).ScoredContent);
             //System.out.println("Article Scored.");
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");            
+            if(LOGFILEOUTPUT){
+                UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");
+            }            
             
             //rank each scores
             //System.out.println("Paragraphs to be used for making summary: ");
             //System.out.println(FileArticle.get(i).RepresentationStrings);
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt");
+            if(LOGFILEOUTPUT){
+                UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt");
+            }
             
             //find lead sentences in top scored paragraph representation of abstract sentences to content paragraph
             FileArticle.get(i).FindLeadSentenceOfRepresentedParagraphs();
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
+            if(LOGFILEOUTPUT){
+                UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
+            }
             
             FileArticle.get(i).RankRepresentedParagraphs();
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).GraphSummary, FileName + "_Graph_Review.txt");
+            if(LOGFILEOUTPUT){
+                UtilityClass.OutputFile(filePath, FileArticle.get(i).GraphSummary, FileName + "_Graph_Review.txt");
+            }
             UtilityClass.OutputFile(filePath, FileArticle.get(i).SummaryString, FileName + "_Summary.txt");
             
         }
         
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
-    }    
+    }
+    public Interface(){
+        
+    }
 }
