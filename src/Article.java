@@ -11,7 +11,7 @@ import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Article {
     
-    private String Source_Article;
+    public String Source_Article;
     List<Paragraph> Article_Paragraphs = new ArrayList<>();
     private final List<Paragraph> Abstract_Paragraph = new ArrayList<>();
     private final List<Paragraph> Content_Paragraph = new ArrayList<>();
@@ -36,6 +36,7 @@ public class Article {
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
         DocumentPreprocessor dp = new DocumentPreprocessor(File_Path);
+        //parse per paragraph delimited by newline
         dp.setSentenceDelimiter("\n");
         boolean Flag_IsAbstractParagraph = false;
         for (List<HasWord> paragraph : dp) {            

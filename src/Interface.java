@@ -92,6 +92,14 @@ public class Interface {
                 UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankString, FileName + "_TextRank_Review.txt");
             }
             UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankObject.getSummary(), FileName + "_TextRank_Summary.txt");
+            
+            double OriginalTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).Source_Article);
+            double ModelTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).SummaryString);
+            double TextRankReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).TextRankObject.getSummary());
+            String ReadabilityReviewString = "Original Text LIX Readability Score: " + OriginalTextReadabilityScore
+                                             + "\nProposed Model Readability Score: " + ModelTextReadabilityScore
+                                             + "\nTextRank Model Readability Score: " + TextRankReadabilityScore;
+            UtilityClass.OutputFile(filePath, ReadabilityReviewString, FileName + "Readability_Scores.txt");
         }
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
         

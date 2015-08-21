@@ -1,4 +1,11 @@
+import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
+import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,4 +118,46 @@ public class UtilityClass {
         double score = Wi.size();
         return score;
     }
+    
+    public static double LIXReadabilityScore(String text){
+        double score = 0;
+        int Words = 0;
+        int Sentences = 0;
+        int LongWords = 0;
+        
+        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution 
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize, ssplit");
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
+        // create an empty Annotation just with the given text
+        Annotation document = new Annotation(text);
+
+        // run all Annotators on this text
+        pipeline.annotate(document);
+
+        // these are all the sentences in this document
+        // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
+        List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+
+        for(CoreMap sentence: sentences) {
+            // traversing the words in the current sentence
+            // a CoreLabel is a CoreMap with additional token-specific methods
+            for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
+                // this is the text of the token
+                String word = token.get(TextAnnotation.class);
+                if(word.matches("[^a-zA-Z\\\\s]*")){
+                    continue;
+                }
+                Words++;
+                if(word.length() > 6){
+                    LongWords++;
+                }
+            }
+            Sentences++;
+        }
+        
+        score = (Words/Sentences) + ((LongWords * 100) / Words);
+        return score;
+    }    
 }
