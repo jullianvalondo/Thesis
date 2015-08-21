@@ -28,9 +28,10 @@ public class Article {
     public String SummaryString = "";
     
     public String TextRankString = "";
+    public String TextRankSummary = "";
     private double d = 0.85; //damping factor for text rank
-    public static int MaximumSentences;
-    public static TextRankSummary TextRankObject;
+    public int MaximumSentences;
+    public final TextRankRepresentation TextRankObject;
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -63,7 +64,8 @@ public class Article {
         }
         
         NumberOfSentences = getNumberOfSentences();
-
+        MaximumSentences = (int) (((Thesis.TextRankPercentage / 100) * NumberOfSentences));
+        TextRankObject = new TextRankRepresentation(MaximumSentences);
         //process each article
     }
     @Override
@@ -131,8 +133,7 @@ public class Article {
     }
     
     public void TextRank(){
-        MaximumSentences = (int) (((Thesis.TextRankPercentage / 100) * NumberOfSentences));
-        TextRankObject = new TextRankSummary(MaximumSentences);
+
         //add weigth edges
         for (Paragraph currentParagraph : Article_Paragraphs) {
             for (Sentence currentSentence : currentParagraph.Paragraph_Sentences) {
@@ -190,6 +191,7 @@ public class Article {
                 TextRankString = TextRankString + score + "\n";
             }
         }
+        TextRankSummary = TextRankObject.toString();
     }
     
     public int getNumberOfSentences(){
@@ -201,88 +203,4 @@ public class Article {
     }
 }
 
-class Representations{
-    public final Paragraph RepresentedParagraph;
-    public final Sentence AbstractSentence;
-    public final Sentence LeadSentence;
-    public String GraphString = "";
-    public String Summary = "";
-    Representations(Paragraph p, Sentence a, Sentence l){
-        RepresentedParagraph = p;
-        AbstractSentence = a;
-        LeadSentence = l;
-    }
-    public void RankRepresentedParagraph(){
-        GraphString = AbstractSentence.RepresentedParagraph.GraphSentences();
-        //System.out.println("\n"+"Abstract Sentence: " + AbstractSentence.Sentence_String+"\nParagraph Summary: \n");
-        //Summary = Summary + "\n\n"+ AbstractSentence.Sentence_String+"\n";
-        //AbstractSentence.RepresentedParagraph.ResetVisitFlag();
-        Summary = Summary + AbstractSentence.RepresentedParagraph.FindSubGraph(LeadSentence) + "\n";
-    }
-    @Override
-    public String toString(){
-        if(LeadSentence == null){
-            return "\n\nAbstract Sentence: " + AbstractSentence.Sentence_String
-                +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
-                + "\n\tNo Lead Sentence Found!";
-        }
-        else{
-            return "\n\nAbstract Sentence: " + AbstractSentence.Sentence_String
-                +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
-                +"\n\tLeadSentence: " + LeadSentence.Sentence_String;
-        }
-    }
-}
 
-class TextRankSummary{
-    static List<Sentence> SummarySentence = new ArrayList<>();
-    Sentence LowestScoringSentence;
-    private static int MaxSentences;
-    public TextRankSummary(int Max){
-        MaxSentences = Max;
-    }
-    public String getSummary(){
-        String Summary = "";
-        for (Sentence SummarySentence1 : SummarySentence) {
-            Summary = Summary + SummarySentence1.Sentence_String + "\n";
-        }
-        return Summary;
-    }
-    public void addSentence(Sentence currentSentence){
-        if(SummarySentence.isEmpty()){
-            LowestScoringSentence = currentSentence;
-            SummarySentence.add(currentSentence);
-        }
-        else if(SummarySentence.size() == MaxSentences){
-            if(LowestScoringSentence.TextRankVertexScore > currentSentence.TextRankVertexScore){
-                //if the current added sentence has lower score than the lowest scoring sentence at the list
-                return;
-            }
-            //remove the LowestScoringSentence
-            SummarySentence.remove(LowestScoringSentence);
-            SummarySentence.add(currentSentence);
-            //iterate through the list and find the sentence with the lowest score
-            LowestScoringSentence = this.getLowestScoringSentence();
-        }
-        else{
-            SummarySentence.add(currentSentence);
-            //iterate through the list and find the sentence with the lowest score
-            LowestScoringSentence = this.getLowestScoringSentence();            
-        }
-    }
-    private Sentence getLowestScoringSentence(){
-        Sentence temp = SummarySentence.get(0);
-        for (Sentence currentSentence : SummarySentence) {
-            if(temp.TextRankVertexScore > currentSentence.TextRankVertexScore){
-                temp = currentSentence;
-            }
-        }
-        
-        return temp;
-    }
-    
-    @Override
-    public String toString(){
-        return this.getSummary();
-    }
-}
