@@ -87,7 +87,7 @@ public class UtilityClass {
         }
         return name;
     }
-    
+    //text rank scoring
     public static double TextRankScoring(Sentence Si, Sentence Sj){
         List<String> Wi = new ArrayList<>();
         List<String> Wj = new ArrayList<>();
@@ -101,7 +101,7 @@ public class UtilityClass {
         double score = Wi.size()/(SiNormalizer + SjNormalizer);
         return score;
     }
-    
+    //returns the number of union
     public static double Scoring(Sentence Si, Sentence Sj){
         Set<String> Wi = new HashSet<>();
         Set<String> Wj = new HashSet<>();

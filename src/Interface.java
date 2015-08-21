@@ -91,6 +91,7 @@ public class Interface {
             if(LOGFILEOUTPUT){
                 UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankString, FileName + "_TextRank_Review.txt");
             }
+            UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankObject.getSummary(), FileName + "_TextRank_Summary.txt");
         }
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
         

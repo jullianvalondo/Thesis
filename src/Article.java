@@ -2,7 +2,9 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jgrapht.graph.DefaultEdge;
@@ -27,6 +29,9 @@ public class Article {
     public String SummaryString = "";
     
     public String TextRankString = "";
+    private double d = 0.85; //damping factor for text rank
+    public static int MaximumSentences = 20;
+    public static TextRankSummary TextRankObject = new TextRankSummary(MaximumSentences);
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -124,6 +129,8 @@ public class Article {
     }
     
     public void TextRank(){
+        
+        //add weigth edges
         for (Paragraph currentParagraph : Article_Paragraphs) {
             for (Sentence currentSentence : currentParagraph.Paragraph_Sentences) {
                 TextRankGraph.addVertex(currentSentence);
@@ -145,13 +152,41 @@ public class Article {
                                     + "\n\tSimilar Keywords: " + currentSentence.GetSimilarKeywords(otherSentence).toString()
                                     +"\n\tScore: " + score);
                         */
-                        TextRankString = TextRankString + score + "\n";
+                        
                     }
                 }
             }
         }
         
-
+        //add vertex weight
+        for (Paragraph currentParagraph : Article_Paragraphs) {
+            for (Sentence currentSentence : currentParagraph.Paragraph_Sentences) {
+                double DenominatorSum = 0;
+                for (Paragraph otherParagraph : Article_Paragraphs) {
+                    for (Sentence otherSentence : otherParagraph.Paragraph_Sentences) {
+                        if(currentSentence.equals(otherSentence)){
+                            continue;
+                        }
+                        DefaultEdge e = TextRankGraph.getEdge(otherSentence, currentSentence);
+                        DenominatorSum = DenominatorSum + TextRankGraph.getEdgeWeight(e);
+                    }
+                }
+                double NumeratorSum = 0;
+                for (Paragraph otherParagraph : Article_Paragraphs) {
+                    for (Sentence otherSentence : otherParagraph.Paragraph_Sentences) {
+                        if(currentSentence.equals(otherSentence)){
+                            continue;
+                        }
+                        DefaultEdge e = TextRankGraph.getEdge(otherSentence, currentSentence);
+                        NumeratorSum = NumeratorSum + (TextRankGraph.getEdgeWeight(e) / DenominatorSum);
+                    }
+                }
+                Double score = (1 - d) + (d * NumeratorSum);
+                currentSentence.TextRankVertexScore = score;
+                TextRankObject.addSentence(currentSentence);
+                TextRankString = TextRankString + score + "\n";
+            }
+        }
     }
 }
 
@@ -185,5 +220,58 @@ class Representations{
                 +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
                 +"\n\tLeadSentence: " + LeadSentence.Sentence_String;
         }
+    }
+}
+
+class TextRankSummary{
+    static List<Sentence> SummarySentence = new ArrayList<>();
+    Sentence LowestScoringSentence;
+    private static int MaxSentences;
+    public TextRankSummary(int Max){
+        MaxSentences = Max;
+    }
+    public String getSummary(){
+        String Summary = "";
+        for (Sentence SummarySentence1 : SummarySentence) {
+            Summary = Summary + SummarySentence1.Sentence_String + "\n";
+        }
+        return Summary;
+    }
+    public void addSentence(Sentence currentSentence){
+        if(SummarySentence.isEmpty()){
+            LowestScoringSentence = currentSentence;
+            SummarySentence.add(currentSentence);
+        }
+        else if(SummarySentence.size() == MaxSentences){
+            if(LowestScoringSentence.TextRankVertexScore > currentSentence.TextRankVertexScore){
+                //if the current added sentence has lower score than the lowest scoring sentence at the list
+                return;
+            }
+            //remove the LowestScoringSentence
+            SummarySentence.remove(LowestScoringSentence);
+            SummarySentence.add(currentSentence);
+            //iterate through the list and find the sentence with the lowest score
+            LowestScoringSentence = this.getLowestScoringSentence();
+        }
+        else{
+            SummarySentence.add(currentSentence);
+            //iterate through the list and find the sentence with the lowest score
+            LowestScoringSentence = this.getLowestScoringSentence();            
+        }
+    }
+    private Sentence getLowestScoringSentence(){
+        Sentence temp = SummarySentence.get(0);
+        for (Sentence currentSentence : SummarySentence) {
+            if(temp.TextRankVertexScore > currentSentence.TextRankVertexScore){
+                temp = currentSentence;
+            }
+        }
+        
+        return temp;
+    }
+    
+    @Override
+    public String toString(){
+        return this.getSummary();
     }
 }

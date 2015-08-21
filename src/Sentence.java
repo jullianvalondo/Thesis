@@ -11,6 +11,8 @@ public class Sentence {
     public Paragraph RepresentedParagraph = null;
     public double RepresentedScore = 0;
     public List <String> Similar_Keywords = new ArrayList<>();
+    //fields for textrank
+    public double TextRankVertexScore;
     
     //constructor
     public Sentence(String Source_Sentence) throws FileNotFoundException{
