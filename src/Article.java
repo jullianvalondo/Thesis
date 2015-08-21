@@ -2,9 +2,7 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jgrapht.graph.DefaultEdge;
@@ -19,6 +17,7 @@ public class Article {
     private final List<Paragraph> Content_Paragraph = new ArrayList<>();
     private int NumberOfAbstractSentence = 0;
     List<Representations> Representations = new ArrayList<>();
+    public final int NumberOfSentences;
     
     private ListenableUndirectedWeightedGraph<Sentence, DefaultEdge> TextRankGraph = new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
     
@@ -30,8 +29,8 @@ public class Article {
     
     public String TextRankString = "";
     private double d = 0.85; //damping factor for text rank
-    public static int MaximumSentences = 20;
-    public static TextRankSummary TextRankObject = new TextRankSummary(MaximumSentences);
+    public static int MaximumSentences;
+    public static TextRankSummary TextRankObject;
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
         Source_Article = "";
@@ -62,6 +61,9 @@ public class Article {
                 }
             }
         }
+        
+        NumberOfSentences = getNumberOfSentences();
+
         //process each article
     }
     @Override
@@ -129,7 +131,8 @@ public class Article {
     }
     
     public void TextRank(){
-        
+        MaximumSentences = (int) (((Thesis.TextRankPercentage / 100) * NumberOfSentences));
+        TextRankObject = new TextRankSummary(MaximumSentences);
         //add weigth edges
         for (Paragraph currentParagraph : Article_Paragraphs) {
             for (Sentence currentSentence : currentParagraph.Paragraph_Sentences) {
@@ -187,6 +190,14 @@ public class Article {
                 TextRankString = TextRankString + score + "\n";
             }
         }
+    }
+    
+    public int getNumberOfSentences(){
+        int count = 0;
+        for(Paragraph currentParagraph:Article_Paragraphs){
+            count = count + currentParagraph.Paragraph_Sentences.size();
+        }
+        return count;
     }
 }
 
