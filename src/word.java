@@ -7,21 +7,20 @@ import edu.stanford.nlp.util.CoreMap;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-public class Keyword {
+public class word {
     public List<String> Keywords = new ArrayList<String>();
     public final int Keyword_Number;
     private final String Original_Source;
     public Set <String> Temporary_Similar_Keywords = new HashSet<String>();
-    public Keyword(){
+    public word(){
          Original_Source = null;
          Keyword_Number = 0;
     }
-    public Keyword(String Parameter_Sentence) throws FileNotFoundException{        
+    public word(String Parameter_Sentence) throws FileNotFoundException{        
 
         this.Original_Source = Parameter_Sentence;
         String text = Parameter_Sentence;
@@ -43,17 +42,21 @@ public class Keyword {
 
             String word = token.get(CoreAnnotations.TextAnnotation.class);
             //"[^a-zA-Z0-9\\\\s]*"
+            /*
             if(word.matches("[^a-zA-Z\\\\s]*") || UtilityClass.ifInList(word, Interface.Stopwords)){
                 continue;
             }            
-
-            String lemma = token.get(LemmaAnnotation.class);
-              Keywords.add(lemma);
+            */
+            if(word.matches("[^a-zA-Z\\\\s]*")){
+                continue;
+            }            
+            //String lemma = token.get(LemmaAnnotation.class);
+              Keywords.add(word);
               //Keywords.add(Lemmatize(lemma));
           }
         }
         
-        Keywords = new ArrayList<>(new LinkedHashSet<>(Keywords));
+        //Keywords = new ArrayList<>(new LinkedHashSet<>(Keywords));
         Keyword_Number = Keywords.size();
         java.util.Collections.sort(Keywords);
         /*

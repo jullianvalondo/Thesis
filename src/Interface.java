@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Interface {
     public static List<String> Stopwords= new ArrayList<String>();
     public static File stopwordfile = new File("src//stopwords.txt");
-    public static List<Article> FileArticle = new ArrayList<>();
+    public List<Article> FileArticle = new ArrayList<>();
     
     public void fileopen() throws FileNotFoundException, IOException {
         boolean LOGFILEOUTPUT = Thesis.StatusOutput;
@@ -55,7 +55,7 @@ public class Interface {
             //System.out.println(FileArticle.get(i).toString());
             //System.out.println("File Parsed.");
             if(LOGFILEOUTPUT){
-               UtilityClass.OutputFile(filePath, FileArticle.get(i).toString(), FileName + "_Parsed.txt"); 
+               UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).toString(), FileName + "_Parsed.txt"); 
             }
             
             //score each keywords
@@ -64,45 +64,45 @@ public class Interface {
             //System.out.println(FileArticle.get(i).ScoredContent);
             //System.out.println("Article Scored.");
             if(LOGFILEOUTPUT){
-                UtilityClass.OutputFile(filePath, FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");
+                UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).ScoredContent, FileName + "_Scores.txt");
             }            
             
             //rank each scores
             //System.out.println("Paragraphs to be used for making summary: ");
             //System.out.println(FileArticle.get(i).RepresentationStrings);
             if(LOGFILEOUTPUT){
-                UtilityClass.OutputFile(filePath, FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt");
+                UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).RepresentationStrings, FileName + "_Scores_Ranked.txt");
             }
             
             //find lead sentences in top scored paragraph representation of abstract sentences to content paragraph
             FileArticle.get(i).FindLeadSentenceOfRepresentedParagraphs();
             if(LOGFILEOUTPUT){
-                UtilityClass.OutputFile(filePath, FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
+                UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).LeadSentencesString, FileName + "_Lead_Sentences.txt");
             }
             
             FileArticle.get(i).RankRepresentedParagraphs();
             if(LOGFILEOUTPUT){
-                UtilityClass.OutputFile(filePath, FileArticle.get(i).GraphSummary, FileName + "_Graph_Review.txt");
+                UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).GraphSummary, FileName + "_Graph_Review.txt");
             }
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).SummaryString, FileName + "_Summary.txt");
+            UtilityClass.OutputFile(filePath+"\\result", FileArticle.get(i).SummaryString, FileName + "_Summary.txt");
             
             //Text Ranking
             FileArticle.get(i).TextRank();
             if(LOGFILEOUTPUT){
-                UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankString, FileName + "_TextRank_Review.txt");
+                UtilityClass.OutputFile(filePath + "\\logs", FileArticle.get(i).TextRankString, FileName + "_TextRank_Review.txt");
             }
-            UtilityClass.OutputFile(filePath, FileArticle.get(i).TextRankObject.getSummary(), FileName + "_TextRank_Summary.txt");
+            UtilityClass.OutputFile(filePath +"\\result", FileArticle.get(i).TextRankObject.getSummary(), FileName + "_TextRank_Summary.txt");
             
-            double OriginalTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).Source_Article);
-            double ModelTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).SummaryString);
-            double TextRankReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).TextRankObject.getSummary());
+            String OriginalTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).Source_Article);
+            String ModelTextReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).SummaryString);
+            String TextRankReadabilityScore = UtilityClass.LIXReadabilityScore(FileArticle.get(i).TextRankObject.getSummary());
             String ReadabilityReviewString = "Original Text LIX Readability Score: " + OriginalTextReadabilityScore
                                              + "\nProposed Model Readability Score: " + ModelTextReadabilityScore
                                              + "\nTextRank Model Readability Score: " + TextRankReadabilityScore;
-            UtilityClass.OutputFile(filePath, ReadabilityReviewString, FileName + "Readability_Scores.txt");
+            UtilityClass.OutputFile(filePath, ReadabilityReviewString, FileName + "_Readability_Scores.txt");
         }
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
-        
+        //file_source = new ArrayList<File>().toArray(file_source);
         //graph based text extraction
     }
     public Interface(){

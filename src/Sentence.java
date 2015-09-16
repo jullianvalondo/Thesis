@@ -6,6 +6,7 @@ import java.util.List;
 public class Sentence {
     public final String Sentence_String;
     public final Keyword Sentence_Keywords;
+    public final word Sentence_words;
     public boolean visited = false;
     //fields for represenation of sentences in paragraph
     public Paragraph RepresentedParagraph = null;
@@ -18,6 +19,7 @@ public class Sentence {
     public Sentence(String Source_Sentence) throws FileNotFoundException{
         Sentence_String = Source_Sentence;
         Sentence_Keywords = new Keyword(Sentence_String);
+        Sentence_words = new word(Sentence_String);
     }
     
     @Override

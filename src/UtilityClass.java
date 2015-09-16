@@ -99,8 +99,8 @@ public class UtilityClass {
     public static double TextRankScoring(Sentence Si, Sentence Sj){
         List<String> Wi = new ArrayList<>();
         List<String> Wj = new ArrayList<>();
-        Wi.addAll(Si.Sentence_Keywords.Keywords);
-        Wj.addAll(Sj.Sentence_Keywords.Keywords);
+        Wi.addAll(Si.Sentence_words.Keywords);
+        Wj.addAll(Sj.Sentence_words.Keywords);
         double SiNormalizer = Math.log(Wi.size());
         double SjNormalizer = Math.log(Wj.size());
         //get intersection of keywords from sentence 1 and sentence 2
@@ -119,7 +119,7 @@ public class UtilityClass {
         return score;
     }
     
-    public static double LIXReadabilityScore(String text){
+    public static String LIXReadabilityScore(String text){
         double score = 0;
         int Words = 0;
         int Sentences = 0;
@@ -158,6 +158,6 @@ public class UtilityClass {
         }
         
         score = (Words/Sentences) + ((LongWords * 100) / Words);
-        return score;
+        return score + "\n\tSentence: " + Sentences + "\n\tWords: " + Words + "\n\tLongWords: " + LongWords;
     }    
 }

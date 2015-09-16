@@ -18,7 +18,7 @@ public class Thesis extends javax.swing.JFrame {
         initComponents();
         SentenceSimilarityThresholdTextBox.setText("10.0");
         LogCheckBox.setSelected(false);
-        TextRankPercentageTextBox.setText("20.0");
+        TextRankPercentageTextBox.setText("10.0");
     }
 
     /**
@@ -137,7 +137,9 @@ public class Thesis extends javax.swing.JFrame {
             fileopener.fileopen();
         } catch (IOException ex) {
             Logger.getLogger(Thesis.class.getName()).log(Level.SEVERE, null, ex);
+            javax.swing.JOptionPane.showMessageDialog(null, ex);
         }
+        
     }//GEN-LAST:event_BrowseFilesActionPerformed
 
     private void SentenceSimilarityThresholdTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SentenceSimilarityThresholdTextBoxActionPerformed

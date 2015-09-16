@@ -12,8 +12,8 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Paragraph{
-    public final double threshold = Thesis.SentenceSimilarityThreshold;
-    
+    //public final double threshold = Thesis.SentenceSimilarityThreshold;
+    public final int threshold = ((Article.NumberOfAbstractSentence/5) + 1) * 5;
     public final String Paragraph_String;
     public final boolean IsAbstractParagraph;
     public final Keyword Paragraph_Keyword;

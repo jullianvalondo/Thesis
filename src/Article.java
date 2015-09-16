@@ -15,7 +15,7 @@ public class Article {
     List<Paragraph> Article_Paragraphs = new ArrayList<>();
     private final List<Paragraph> Abstract_Paragraph = new ArrayList<>();
     private final List<Paragraph> Content_Paragraph = new ArrayList<>();
-    private int NumberOfAbstractSentence = 0;
+    public static int NumberOfAbstractSentence;
     List<Representations> Representations = new ArrayList<>();
     public final int NumberOfSentences;
     
@@ -34,6 +34,7 @@ public class Article {
     public final TextRankRepresentation TextRankObject;
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
     public Article(String File_Path) throws FileNotFoundException{
+        NumberOfAbstractSentence = 0;
         Source_Article = "";
         DocumentPreprocessor dp = new DocumentPreprocessor(File_Path);
         //parse per paragraph delimited by newline
