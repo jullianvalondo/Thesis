@@ -39,6 +39,8 @@ public class Interface {
         {   
             //input file
             String arg = file_source[file_ctr].getAbsolutePath();
+            String output = "Processing " + (file_ctr + 1) + " out of " + fc.getSelectedFiles().length + "\\n" + arg;
+            Thesis.StatusText.setText(output);            
             FileArticle.add(new Article(arg));
         }
         
@@ -99,13 +101,13 @@ public class Interface {
             String ReadabilityReviewString = "Original Text LIX Readability Score: " + OriginalTextReadabilityScore
                                              + "\nProposed Model Readability Score: " + ModelTextReadabilityScore
                                              + "\nTextRank Model Readability Score: " + TextRankReadabilityScore;
-            UtilityClass.OutputFile(filePath, ReadabilityReviewString, FileName + "_Readability_Scores.txt");
+            UtilityClass.OutputFile(filePath + "\\score", ReadabilityReviewString, FileName + "_Readability_Scores.txt");
         }
         JOptionPane.showMessageDialog(null, "Done Summarizing", "Summarizer", JOptionPane.PLAIN_MESSAGE);
+        Thesis.StatusText.setText("");
         //file_source = new ArrayList<File>().toArray(file_source);
         //graph based text extraction
     }
     public Interface(){
-        
     }
 }

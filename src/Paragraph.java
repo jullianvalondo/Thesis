@@ -13,7 +13,7 @@ import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
 
 public class Paragraph{
     //public final double threshold = Thesis.SentenceSimilarityThreshold;
-    public final int threshold = ((Article.NumberOfAbstractSentence/5) + 1) * 5;
+    public final int threshold = this.computeThreshold();
     public final String Paragraph_String;
     public final boolean IsAbstractParagraph;
     public final Keyword Paragraph_Keyword;
@@ -30,6 +30,15 @@ public class Paragraph{
             String sentence_string = UtilityClass.ListToString(sentence);
             Sentence CurrentSentence = new Sentence(sentence_string);
             Paragraph_Sentences.add(CurrentSentence);         
+        }
+    }
+    private int computeThreshold(){
+        int th = ((Article.NumberOfAbstractSentence/5) + 1) * 5;
+        if (th > 10){
+            return 10;
+        }
+        else{
+            return th;
         }
     }
     @Override

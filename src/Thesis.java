@@ -16,9 +16,7 @@ public class Thesis extends javax.swing.JFrame {
     }
     public Thesis() {
         initComponents();
-        SentenceSimilarityThresholdTextBox.setText("10.0");
         LogCheckBox.setSelected(false);
-        TextRankPercentageTextBox.setText("10.0");
     }
 
     /**
@@ -31,16 +29,10 @@ public class Thesis extends javax.swing.JFrame {
     private void initComponents() {
 
         BrowseFiles = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        SentenceSimilarityThresholdTextBox = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         LogCheckBox = new javax.swing.JCheckBox();
-        jLabel3 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
-        TextRankPercentageTextBox = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        StatusText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,77 +43,49 @@ public class Thesis extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Sentence Similarity Threshold");
-
-        SentenceSimilarityThresholdTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SentenceSimilarityThresholdTextBoxActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Log File Output");
 
         LogCheckBox.setText("Tick to turn on");
 
-        jLabel3.setText("Proposed Model");
+        jLabel1.setText("Status: ");
 
-        jLabel4.setText("Percentage of Sentence Length to be used for Summary");
-
-        jLabel5.setText("TextRank Model");
+        StatusText.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(BrowseFiles))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(StatusText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(SentenceSimilarityThresholdTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(LogCheckBox))
-                            .addComponent(jLabel4)
-                            .addComponent(TextRankPercentageTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(0, 110, Short.MAX_VALUE)))
+                            .addComponent(BrowseFiles))
+                        .addGap(0, 202, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jSeparator2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SentenceSimilarityThresholdTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextRankPercentageTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(LogCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BrowseFiles)
-                .addContainerGap())
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(StatusText))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         pack();
@@ -129,9 +93,7 @@ public class Thesis extends javax.swing.JFrame {
 
     private void BrowseFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseFilesActionPerformed
         // TODO add your handling code here:
-        SentenceSimilarityThreshold = Double.parseDouble(SentenceSimilarityThresholdTextBox.getText());
         StatusOutput = LogCheckBox.isSelected();
-        TextRankPercentage = Double.parseDouble(TextRankPercentageTextBox.getText());
         Interface fileopener = new Interface();
         try {
             fileopener.fileopen();
@@ -141,10 +103,6 @@ public class Thesis extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_BrowseFilesActionPerformed
-
-    private void SentenceSimilarityThresholdTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SentenceSimilarityThresholdTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SentenceSimilarityThresholdTextBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,15 +120,11 @@ public class Thesis extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Thesis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Thesis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Thesis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Thesis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -180,18 +134,12 @@ public class Thesis extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BrowseFiles;
     private javax.swing.JCheckBox LogCheckBox;
-    private javax.swing.JTextField SentenceSimilarityThresholdTextBox;
-    private javax.swing.JTextField TextRankPercentageTextBox;
+    public static javax.swing.JLabel StatusText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }

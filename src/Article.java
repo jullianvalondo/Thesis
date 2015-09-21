@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
@@ -29,7 +30,7 @@ public class Article {
     
     public String TextRankString = "";
     public String TextRankSummary = "";
-    private double d = 0.85; //damping factor for text rank
+    private final double d = 0.85; //damping factor for text rank
     public int MaximumSentences;
     public final TextRankRepresentation TextRankObject;
     //private List<RepresentedParagraph> RepresentedAbstractParagraph = new ArrayList<>();
@@ -66,7 +67,7 @@ public class Article {
         }
         
         NumberOfSentences = getNumberOfSentences();
-        MaximumSentences = (int) (((Thesis.TextRankPercentage / 100) * NumberOfSentences));
+        MaximumSentences = (int) (((0.1) * NumberOfSentences));
         TextRankObject = new TextRankRepresentation(MaximumSentences);
         //process each article
     }
@@ -195,7 +196,13 @@ public class Article {
         }
         TextRankSummary = TextRankObject.toString();
     }
-    
+    private int getNumberOfAbstractSentence(){
+        int count = 0;
+        for (Paragraph Abstract_Paragraph1 : this.Abstract_Paragraph) {
+            count = count + Abstract_Paragraph1.Paragraph_Sentences.size();
+        }
+        return count;
+    }
     public int getNumberOfSentences(){
         int count = 0;
         for(Paragraph currentParagraph:Article_Paragraphs){
