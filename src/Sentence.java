@@ -90,7 +90,8 @@ public class Sentence {
                     return "\nAbstract Sentence: " + this.Sentence_String
                                       + "\n\tParagraph: " + RepresentedParagraph.Paragraph_String
                                       +"\n\tScore: " + RepresentedScore
-                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString()
+                                        +"\n\tIntersection of Keywords: " + Similar_Keywords.toString()
+                                        +"\n\tNumber of Abstract Sentence Keywords: " + Sentence_Keywords.Keywords.size()
                                         +"\n\tParagraph Keywords: " + RepresentedParagraph.Paragraph_Keyword.Keywords.toString()
                                         +"\n\tSentence Keywords: " + Sentence_Keywords.Keywords.toString();
     }

@@ -27,7 +27,11 @@ public class Representations{
         else{
             return "\n\nAbstract Sentence: " + AbstractSentence.Sentence_String
                 +"\n\tPagragraph: " + RepresentedParagraph.Paragraph_String
-                +"\n\tLeadSentence: " + LeadSentence.Sentence_String;
+                +"\n\tLeadSentence: " + LeadSentence.Sentence_String
+                +"\n\tNumber Of Intersected Keywords: " + LeadSentence.Sentence_Keywords.Score_Similar_Keywords(RepresentedParagraph.Paragraph_Keyword)
+                +"\n\tIntersected Keywords: " + LeadSentence.Sentence_Keywords.Get_Similar_Keywords(RepresentedParagraph.Paragraph_Keyword)
+                +"\n\tParagraph Keywords: " + RepresentedParagraph.Paragraph_Keyword.toString()
+                +"\n\tLeadSentence Keywords: " + LeadSentence.Sentence_Keywords.toString();
         }
     }
 }

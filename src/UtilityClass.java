@@ -118,7 +118,15 @@ public class UtilityClass {
         double score = Wi.size();
         return score;
     }
-    
+        //returns the number of union
+    public static Set<String> UnionList(Sentence Si, Sentence Sj){
+        Set<String> Wi = new HashSet<>();
+        Set<String> Wj = new HashSet<>();
+        Wi.addAll(Si.Sentence_Keywords.Keywords);
+        Wi.addAll(Sj.Sentence_Keywords.Keywords);
+        
+        return Wi;
+    }
     public static String LIXReadabilityScore(String text){
         double score = 0;
         int Words = 0;

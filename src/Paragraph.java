@@ -83,13 +83,16 @@ public class Paragraph{
                 //graph.addVertex(otherSentence);
                 double similarity_score = currentSentence.GetNumberOfCooccuringKeywords(otherSentence);// / currentSentence.Sentence_Keywords.Keywords.size();
                 //double score = similarity_score/currentSentence.Sentence_Keywords.Keywords.size() * 100;
-                double score = similarity_score / UtilityClass.Scoring(currentSentence, otherSentence) * 100;
+                double union = UtilityClass.Scoring(currentSentence, otherSentence);
+                double score = similarity_score / union * 100;
                 ret = ret + "\n\nSentence: " + currentSentence.Sentence_String
-                                    +"\nkeywords: " + currentSentence.Sentence_Keywords.toString()
-                                    +"\nSentence: " + otherSentence.Sentence_String
-                                    +"\nkeywords: " + otherSentence.Sentence_Keywords.toString()
-                                    + "\n\tSimilar Keywords: " + currentSentence.GetSimilarKeywords(otherSentence).toString()
-                                    +"\n\tSimilarity Score: " + similarity_score
+                                    +"\n\tkeywords: " + currentSentence.Sentence_Keywords.toString()
+                                    +"\nOther Sentence: " + otherSentence.Sentence_String
+                                    +"\n\tOther Sentence keywords: " + otherSentence.Sentence_Keywords.toString()
+                                    + "\n\tIntersection of Keywords from Sentence and Other Sentence: " + currentSentence.GetSimilarKeywords(otherSentence).toString()
+                                    +"\n\tNumber of Intersected Keywords: " + similarity_score
+                                    +"\n\tUnion of Keywords from Sentence and Other Sentence" + UtilityClass.UnionList(currentSentence, otherSentence)
+                                    +"\n\tNumber of Unioned Keywords: " + union
                                     +"\n\tScore: " + score;
                 
                 graph.addEdge(otherSentence, currentSentence);
@@ -114,7 +117,7 @@ public class Paragraph{
         }
         else{
             //System.out.println(CurrentSentence);
-            toRet = "\n"+CurrentSentence.toString();
+            toRet = ""+CurrentSentence.toString();
             CurrentSentence.visited = true;
         }
         for (Sentence otherSentence : Paragraph_Sentences) {

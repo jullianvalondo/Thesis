@@ -43,7 +43,7 @@ public class Keyword {
 
             String word = token.get(CoreAnnotations.TextAnnotation.class);
             //"[^a-zA-Z0-9\\\\s]*"
-            if(word.matches("[^a-zA-Z\\\\s]*") || UtilityClass.ifInList(word, Interface.Stopwords)){
+            if(word.matches("[^a-zA-Z\\\\s]*") || UtilityClass.ifInList(word, Interface.Stopwords) || UtilityClass.ifInList(word, StepByStepInterface.Stopwords)){
                 continue;
             }            
 
@@ -105,7 +105,7 @@ public class Keyword {
     
     @Override
     public String toString(){
-        String toRet = "\n\t\tKeywords: ";
+        String toRet = "";
         for (String Keyword : Keywords) {
             toRet = toRet + "[" + Keyword + "]" + " ";
         }

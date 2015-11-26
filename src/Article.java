@@ -88,15 +88,17 @@ public class Article {
                     Paragraph CurrentContentParagraph = Content_Paragraph.get(k);
                     
                     List <String> Similar_Keywords = new ArrayList<>();
-                    double Score = Abstract_Paragraph.get(i).Paragraph_Sentences.get(j).GetNumberOfCooccuringKeywords(Content_Paragraph.get(k));
-                    Score = Score / Abstract_Paragraph.get(i).Paragraph_Sentences.get(j).Sentence_Keywords.Keyword_Number * 100;
+                    double intersection = Abstract_Paragraph.get(i).Paragraph_Sentences.get(j).GetNumberOfCooccuringKeywords(Content_Paragraph.get(k));
+                    double Score = intersection / Abstract_Paragraph.get(i).Paragraph_Sentences.get(j).Sentence_Keywords.Keyword_Number * 100;
                     Similar_Keywords = CurrentAbstractSentence.GetSimilarKeywords(CurrentContentParagraph);
                     ScoredContent = ScoredContent + "\n\nAbstract Sentence: " + CurrentAbstractSentence.Sentence_String 
                                       + "\n\tParagraph: " + CurrentContentParagraph.Paragraph_String
                                       +"\n\tScore: " + Score
-                                        +"\n\tSimilar Keywords: " + Similar_Keywords.toString()
-                                        +"\n\tParagraph Keywords: " + CurrentContentParagraph.Paragraph_Keyword.Keywords
-                                        +"\n\tAbstract Sentence Keywords: " +CurrentAbstractSentence.Sentence_Keywords.Keywords;
+                                        +"\n\tNumber of Intersected Keywords: " + intersection
+                                        +"\n\tNumber of Paragraph Keywords: " + Abstract_Paragraph.get(i).Paragraph_Sentences.get(j).Sentence_Keywords.Keyword_Number
+                                        +"\n\tIntersected Keywords: " + Similar_Keywords.toString()
+                                        +"\n\tParagraph Keywords: " + CurrentContentParagraph.Paragraph_Keyword.Keywords.toString()
+                                        +"\n\tAbstract Sentence Keywords: " +CurrentAbstractSentence.Sentence_Keywords.Keywords.toString();
                     CurrentAbstractSentence.addRepresentation(CurrentContentParagraph, Score, Similar_Keywords);
                             
                 }              
